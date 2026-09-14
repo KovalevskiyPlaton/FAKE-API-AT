@@ -3,4 +3,4 @@
 target/
 build/
 *.iml
-data.txt
+data
