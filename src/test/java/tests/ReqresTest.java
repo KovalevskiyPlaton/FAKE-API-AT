@@ -1,8 +1,8 @@
 package tests;
 
+import api.model.RegisterUser;
+import api.model.SuccessReg;
 import api.protect.Specifications;
-import groovyjarjarpicocli.CommandLine;
-import io.restassured.http.ContentType;
 import api.model.UserData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -40,5 +40,30 @@ public class ReqresTest {
         for(int i =0; i<avatars.size(); i++){
             Assert.assertTrue(avatars.get(i).contains(ids.get(i)));
         }
+    }
+
+    @Test
+    public void succesRegTest(){
+        Specifications.installSpecification(Specifications.reqestSpec(URL), Specifications.responseSpecOk200());
+        Integer id = 4;
+        String token = "QpwL5tke4Pnpja7X4";
+
+        RegisterUser user = new RegisterUser("eve.holt@reqres.in", "pistol");
+        SuccessReg successReg = given()
+                .queryParam("key", ApiConfig.API_KEY)
+                .body(user)
+                .when()
+                .post("api/register")
+                .then().log().all()
+                .extract().as(SuccessReg.class);
+        Assert.assertNotNull(successReg.getId());
+        Assert.assertNotNull(successReg.getToken());
+
+        Assert.assertEquals(id, successReg.getId());
+        Assert.assertEquals(token, successReg.getToken());
+
+
+
+
     }
 }
