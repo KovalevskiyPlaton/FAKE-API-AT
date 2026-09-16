@@ -8,10 +8,7 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterUser {
-    @JsonProperty("email")
-    private String email;
-
-    @JsonProperty("password")
-    private String password;
+public class UnSuccessReg {
+    @JsonProperty("error")
+    private String error;
 }

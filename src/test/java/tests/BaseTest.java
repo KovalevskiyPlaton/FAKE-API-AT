@@ -8,7 +8,7 @@ import utils.ApiConfig;
 public class BaseTest {
 
     @BeforeTest
-    public void setup(){
+    public void setup() {
         RestAssured.baseURI = ApiConfig.BASE_URL;
     }
 }
