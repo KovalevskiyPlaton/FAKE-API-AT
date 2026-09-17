@@ -1,10 +1,7 @@
 package tests;
 
-import api.model.RegisterUser;
-import api.model.SuccessReg;
-import api.model.UnSuccessReg;
+import api.model.*;
 import api.protect.Specifications;
-import api.model.UserData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.ApiConfig;
@@ -63,5 +60,21 @@ public class ReqresTest {
                 .extract().as(UnSuccessReg.class);
 
         Assert.assertEquals("Missing password", unSuccessReg.getError());
+    }
+
+    @Test
+    public void sortedYearsTest() {
+        Specifications.installSpecification(Specifications.reqestSpec(URL), Specifications.responseSpecOk200());
+        List<ColorsData> colors = given()
+                .when()
+                .get("api/unknown")
+                .then().log().all()
+                .extract().body().jsonPath().getList("data", ColorsData.class);
+
+        List<Integer> years = colors.stream().map(ColorsData::getYear).collect(Collectors.toList());
+        List<Integer> sortedYears = years.stream().sorted().collect(Collectors.toList());
+        Assert.assertEquals(sortedYears, years);
+        System.out.println(years);
+        System.out.println(sortedYears);
     }
 }
